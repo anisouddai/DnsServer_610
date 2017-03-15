@@ -58,6 +58,16 @@ import java.util.Scanner;
 		return adresse;
 	}
 	
+	public String getFileName(){
+		return filename;
+	}
+	
+	public void setFileName(String filename){
+		this.filename = filename;
+	}
+	
+	
+	
 	/**
 	 * Search un hostname et retourne une ip
 	 * @param hostname = adresse dns a chercher

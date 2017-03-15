@@ -58,11 +58,11 @@ public class ServeurDNS {
 				UDPR.start();
 			}
 			else{
-				System.out.print("L'éxecution par défaut n'a pas d'autres arguments");
+				System.out.print("L'�x�cution par d�faut n'a pas d'autres arguments");
 			}
 		}
 		else{
-			if(args[0].equals("showtable")){ // cas où l'argument = showtable cacheDNS
+			if(args[0].equals("showtable")){ // cas o� l'argument = showtable cacheDNS
 				if (args.length == 2) {
 					f = new File(args[1]);
 					if(f.exists()){

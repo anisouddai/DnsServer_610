@@ -1,0 +1,2 @@
+www.google.ca 172.217.4.99
+www.transat.com 107.154.103.27

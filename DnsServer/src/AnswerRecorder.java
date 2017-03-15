@@ -28,6 +28,12 @@ public class AnswerRecorder {
 	public String getFilename() {
 		return filename;
 	}
+	
+	public void setFileName(String filename){
+		this.filename = filename;
+	}
+	
+	
 
 	/**
 	 * @param hostname : NS (ex google.com)

@@ -55,11 +55,7 @@ public class UDPReceiver extends Thread {
 	 * QDCount : nombre de questions. 
 	 * ANCount, NSCount, ARCount : nombre d�entrees dans les champs �Reponse�, Autorite,  Additionnel.
 	 */
-	private static final int QUERY = 0;
-	private static final int RESPONSE = 1;
-	private int ID;
-	private int QR;
-	private int ANCOUNT;
+
 	protected final static int BUF_SIZE = 1024;
 	protected String SERVER_DNS = null;//serveur de redirection (ip)
 	protected int portRedirect = 53; // port  de redirection (par defaut)
@@ -68,9 +64,6 @@ public class UDPReceiver extends Thread {
 	private String DomainName = "none";
 	private String DNSFile = null;
 	private boolean RedirectionSeulement = false;
-	private UDPAnswerPacketCreator answerPacketCreator;
-	private QueryFinder queryFinder;
-	private AnswerRecorder answerRecorder;
 	
 	private class ClientInfo { //quick container
 		public String client_ip = null;
@@ -82,19 +75,11 @@ public class UDPReceiver extends Thread {
 
 	
 	public UDPReceiver() {
-		
-		this.answerPacketCreator = UDPAnswerPacketCreator.getInstance();
-		this.queryFinder = new QueryFinder(this.DNSFile);
-		this.answerRecorder = new AnswerRecorder(this.DNSFile);
-		
 	}
 
 	public UDPReceiver(String SERVER_DNS, int Port) {
 		this.SERVER_DNS = SERVER_DNS;
 		this.port = Port;
-		this.answerPacketCreator = UDPAnswerPacketCreator.getInstance();
-		this.queryFinder = new QueryFinder(this.DNSFile);
-		this.answerRecorder = new AnswerRecorder(this.DNSFile);
 	}
 	
 	
@@ -135,15 +120,17 @@ public class UDPReceiver extends Thread {
 	public void run() {
 		try {
 			DatagramSocket serveur = new DatagramSocket(this.port); // *Creation d'un socket UDP
+		
 			
-			// *Boucle infinie de reception
+			// *Boucle infinie de recpetion
 			while (!this.stop) {
 				byte[] buff = new byte[0xFF];
 				DatagramPacket paquetRecu = new DatagramPacket(buff,buff.length);
 				System.out.println("Serveur DNS  "+serveur.getLocalAddress()+"  en attente sur le port: "+ serveur.getLocalPort());
 
 				// *Reception d'un paquet UDP via le socket
-				serveur.receive(paquetRecu);				
+				serveur.receive(paquetRecu);
+				
 				System.out.println("paquet recu du  "+paquetRecu.getAddress()+"  du port: "+ paquetRecu.getPort());
 				
 
@@ -157,7 +144,6 @@ public class UDPReceiver extends Thread {
 				// ****** Dans le cas d'un paquet requete *****
 
 					// *Lecture du Query Domain name, a partir du 13 byte
-					
 
 					// *Sauvegarde du Query Domain name
 					
@@ -198,20 +184,8 @@ public class UDPReceiver extends Thread {
 			}
 //			serveur.close(); //closing server
 		} catch (Exception e) {
-			System.err.println("Problème à l'exécution :");
+			System.err.println("Probl�me � l'ex�cution :");
 			e.printStackTrace(System.err);
 		}
 	}
-	
-	public static boolean isQuery(byte[] paquetRecu){
-		return true;
-	}
-	
-	public static boolean isResponse(byte[] paquetRecu){
-		return true;
-	}
-	
-	
-	
-	
 }
